@@ -13,8 +13,11 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             @forelse($projects as $project)
             <div class="group relative rounded-3xl overflow-hidden shadow-lg h-96 card-hover">
-                @if($project->image)
-                <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                @php
+                    $projectImage = is_array($project->image) ? ($project->image[0] ?? null) : $project->image;
+                @endphp
+                @if($projectImage)
+                <img src="{{ asset('storage/' . $projectImage) }}" alt="{{ $project->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
                 @else
                 <img src="https://images.unsplash.com/photo-1541123437800-1bb1317badc1?auto=format&fit=crop&w=800&q=80" alt="{{ $project->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
                 @endif

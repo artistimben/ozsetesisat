@@ -23,6 +23,14 @@ class CustomerForm
                 \Filament\Forms\Components\Textarea::make('notes')
                     ->label('Notlar')
                     ->columnSpanFull(),
+                \Filament\Forms\Components\FileUpload::make('logo')
+                    ->label('Müşteri Logosu / Resmi')
+                    ->image()
+                    ->disk('public')
+                    ->directory('customers'),
+                \Filament\Forms\Components\Toggle::make('is_reference')
+                    ->label('Referans Olarak Göster')
+                    ->default(false),
             ]);
     }
 }

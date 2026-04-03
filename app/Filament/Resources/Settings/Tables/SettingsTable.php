@@ -13,7 +13,16 @@ class SettingsTable
     {
         return $table
             ->columns([
-                //
+                \Filament\Tables\Columns\TextColumn::make('label')
+                    ->label('Ayar Adı')
+                    ->searchable()
+                    ->sortable(),
+                \Filament\Tables\Columns\TextColumn::make('key')
+                    ->label('Sistem Anahtarı')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                \Filament\Tables\Columns\TextColumn::make('value')
+                    ->label('Değer')
+                    ->limit(50),
             ])
             ->filters([
                 //

@@ -26,7 +26,10 @@ class ServiceForm
                     ->columnSpanFull(),
                 \Filament\Forms\Components\FileUpload::make('image')
                     ->label('Hizmet Görseli')
-                    ->image(),
+                    ->image()
+                    ->disk('public')
+                    ->directory('services')
+                    ->required(),
                 \Filament\Forms\Components\TextInput::make('icon')
                     ->label('İkon Kodu (Heroicons)'),
                 \Filament\Forms\Components\Toggle::make('is_active')

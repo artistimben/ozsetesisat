@@ -6,7 +6,12 @@ Route::get('/', function () {
     $services = \App\Models\Service::where('is_active', true)->orderBy('order')->get();
     $testimonials = \App\Models\Testimonial::all();
     $sliders = \App\Models\Slider::where('is_active', true)->orderBy('order')->get();
-    return view('welcome', compact('services', 'testimonials', 'sliders'));
+    $faqs = \App\Models\Faq::where('is_published', true)->orderBy('order')->get();
+    $posts = \App\Models\Post::where('is_published', true)->latest()->take(3)->get();
+    $projects = \App\Models\Project::latest()->take(6)->get();
+    $references = \App\Models\Customer::where('is_reference', true)->get();
+    
+    return view('welcome', compact('services', 'testimonials', 'sliders', 'faqs', 'posts', 'projects', 'references'));
 });
 
 Route::get('/hizmetler', function () {
@@ -23,6 +28,11 @@ Route::get('/projeler', function () {
     $projects = \App\Models\Project::all();
     return view('projects', compact('projects'));
 })->name('projects');
+
+Route::get('/galeri', function () {
+    $galleries = \App\Models\Gallery::where('is_active', true)->orderBy('order')->get();
+    return view('gallery', compact('galleries'));
+})->name('gallery');
 
 Route::get('/iletisim', function () {
     return view('contact');

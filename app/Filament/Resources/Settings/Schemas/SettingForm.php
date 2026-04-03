@@ -19,6 +19,21 @@ class SettingForm
                     ->required(),
                 \Filament\Forms\Components\Textarea::make('value')
                     ->label('Ayar Değeri')
+                    ->required()
+                    ->visible(fn ($record) => $record?->type === 'textarea')
+                    ->columnSpanFull(),
+                \Filament\Forms\Components\TextInput::make('value')
+                    ->label('Ayar Değeri')
+                    ->required()
+                    ->visible(fn ($record) => $record?->type !== 'textarea' && $record?->type !== 'image')
+                    ->columnSpanFull(),
+                \Filament\Forms\Components\FileUpload::make('value')
+                    ->label('Ayar Görseli')
+                    ->image()
+                    ->disk('public')
+                    ->directory('settings')
+                    ->required()
+                    ->visible(fn ($record) => $record?->type === 'image')
                     ->columnSpanFull(),
             ]);
     }

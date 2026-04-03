@@ -52,12 +52,16 @@
             <div class="flex justify-between h-20 items-center">
                 <div class="flex items-center">
                     <a href="/" class="flex items-center group">
-                        <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white mr-3 group-hover:rotate-12 transition-transform shadow-lg shadow-primary/20">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                            </svg>
+                        <div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-white mr-3 group-hover:rotate-12 transition-all shadow-lg shadow-primary/20 overflow-hidden">
+                            @if(isset($settings['site_logo']) && $settings['site_logo'])
+                                <img src="{{ asset('storage/' . $settings['site_logo']) }}" alt="Logo" class="w-full h-full object-cover">
+                            @else
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                                </svg>
+                            @endif
                         </div>
-                        <span class="text-2xl font-bold font-outfit tracking-tight">ÖZSE<span class="text-primary">TESİSAT</span></span>
+                        <span class="text-2xl font-bold font-outfit tracking-tight">{{ $settings['site_title'] ?? 'ÖZSE' }}</span>
                     </a>
                 </div>
                 
@@ -65,12 +69,13 @@
                     <a href="/" class="nav-link font-medium text-slate-600 hover:text-primary">Ana Sayfa</a>
                     <a href="/hizmetler" class="nav-link font-medium text-slate-600 hover:text-primary">Hizmetlerimiz</a>
                     <a href="/projeler" class="nav-link font-medium text-slate-600 hover:text-primary">Projeler</a>
+                    <a href="/galeri" class="nav-link font-medium text-slate-600 hover:text-primary">Galeri</a>
                     <a href="/iletisim" class="nav-link font-medium text-slate-600 hover:text-primary">İletişim</a>
-                    <a href="tel:05300000000" class="bg-primary text-white px-6 py-2.5 rounded-full font-semibold hover:bg-secondary transition-all shadow-lg shadow-primary/30 flex items-center">
+                    <a href="tel:{{ str_replace(' ', '', $settings['phone'] ?? '05300000000') }}" class="bg-primary text-white px-6 py-2.5 rounded-full font-semibold hover:bg-secondary transition-all shadow-lg shadow-primary/30 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                         </svg>
-                        Hemen Ara
+                        {{ $settings['phone'] ?? 'Hemen Ara' }}
                     </a>
                 </div>
                 
@@ -96,7 +101,10 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
                 <div>
                     <div class="flex items-center text-white mb-6">
-                        <span class="text-2xl font-bold font-outfit tracking-tight">ÖZSE<span class="text-primary">TESİSAT</span></span>
+                        @if(isset($settings['site_logo']) && $settings['site_logo'])
+                            <img src="{{ asset('storage/' . $settings['site_logo']) }}" alt="Logo" class="w-12 h-12 rounded-xl mr-3 object-cover">
+                        @endif
+                        <span class="text-2xl font-bold font-outfit tracking-tight">{{ $settings['site_title'] ?? 'ÖZSE TESİSAT' }}</span>
                     </div>
                     <p class="text-slate-400 leading-relaxed mb-6">
                         Hatay Dörtyol ve çevresinde profesyonel su tesisatı çözümleri sunuyoruz. 7/24 hizmet anlayışımızla yanınızdayız.
@@ -106,8 +114,7 @@
                             <!-- Social Icon (Facebook) -->
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
                         </a>
-                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-                            <!-- Social Icon (Instagram) -->
+                        <a href="{{ $settings['instagram_url'] ?? '#' }}" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                         </a>
                     </div>
@@ -119,17 +126,19 @@
                         <li><a href="/" class="hover:text-primary transition-colors">Ana Sayfa</a></li>
                         <li><a href="/hizmetler" class="hover:text-primary transition-colors">Hizmetlerimiz</a></li>
                         <li><a href="/projeler" class="hover:text-primary transition-colors">Projeler</a></li>
+                        <li><a href="/galeri" class="hover:text-primary transition-colors">Galeri</a></li>
                         <li><a href="/iletisim" class="hover:text-primary transition-colors">İletişim</a></li>
+                        <li><a href="/#sss" class="hover:text-primary transition-colors">S.S.S.</a></li>
                     </ul>
                 </div>
                 
                 <div>
                     <h3 class="text-white font-bold mb-6 font-outfit">Hizmetler</h3>
                     <ul class="space-y-4">
-                        <li><a href="#" class="hover:text-primary transition-colors">Tıkanıklık Açma</a></li>
-                        <li><a href="#" class="hover:text-primary transition-colors">Su Kaçağı Tespiti</a></li>
-                        <li><a href="#" class="hover:text-primary transition-colors">Petek Temizleme</a></li>
-                        <li><a href="#" class="hover:text-primary transition-colors">Tesisat Döşeme</a></li>
+                        <li><a href="/hizmetler" class="hover:text-primary transition-colors">Tıkanıklık Açma</a></li>
+                        <li><a href="/hizmetler" class="hover:text-primary transition-colors">Su Kaçağı Tespiti</a></li>
+                        <li><a href="/hizmetler" class="hover:text-primary transition-colors">Petek Temizleme</a></li>
+                        <li><a href="/hizmetler" class="hover:text-primary transition-colors">Tesisat Döşeme</a></li>
                     </ul>
                 </div>
                 
@@ -143,7 +152,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
                             </span>
-                            Dörtyol, Hatay
+                            {{ $settings['address'] ?? 'Dörtyol, Hatay' }}
                         </li>
                         <li class="flex items-center">
                             <span class="mr-3 text-primary">
@@ -151,14 +160,16 @@
                                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                                 </svg>
                             </span>
-                            0530 000 00 00
+                            <a href="tel:{{ str_replace(' ', '', $settings['phone'] ?? '05300000000') }}" class="hover:text-primary transition-colors">
+                                {{ $settings['phone'] ?? '0530 000 00 00' }}
+                            </a>
                         </li>
                     </ul>
                 </div>
             </div>
             
             <div class="pt-8 border-t border-slate-800 text-center text-sm">
-                <p>&copy; {{ date('Y') }} ÖZSE Tesisat. Tüm Hakları Saklıdır.</p>
+                <p>&copy; {{ date('Y') }} {{ $settings['site_title'] ?? 'ÖZSE Tesisat' }}. Tüm Hakları Saklıdır.</p>
             </div>
         </div>
     </footer>

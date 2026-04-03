@@ -8,7 +8,11 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div class="relative">
                 <div class="absolute -inset-4 bg-primary/10 rounded-[3rem] blur-3xl transform rotate-3"></div>
+                @if($service->image)
+                <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->title }}" class="relative rounded-[2.5rem] w-full h-[500px] object-cover shadow-2xl">
+                @else
                 <img src="https://images.unsplash.com/photo-1542013936693-884638332954?auto=format&fit=crop&w=1200&q=80" alt="{{ $service->title }}" class="relative rounded-[2.5rem] w-full h-[500px] object-cover shadow-2xl">
+                @endif
             </div>
             
             <div>

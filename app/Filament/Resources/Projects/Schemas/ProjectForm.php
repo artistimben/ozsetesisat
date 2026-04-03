@@ -17,8 +17,13 @@ class ProjectForm
                     ->label('Proje Detayı')
                     ->columnSpanFull(),
                 \Filament\Forms\Components\FileUpload::make('image')
-                    ->label('Proje Görseli')
-                    ->image(),
+                    ->label('Proje Görselleri')
+                    ->image()
+                    ->multiple()
+                    ->reorderable()
+                    ->disk('public')
+                    ->directory('projects')
+                    ->required(),
                 \Filament\Forms\Components\TextInput::make('area')
                     ->label('Bölge / Alan')
                     ->placeholder('Örn: Dörtyol / 5 Ocak Mahallesi'),

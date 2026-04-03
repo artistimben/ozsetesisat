@@ -1,34 +1,32 @@
 <?php
 
-namespace App\Filament\Resources\Sliders\Schemas;
+namespace App\Filament\Resources\Galleries\Schemas;
 
 use Filament\Schemas\Schema;
 
-class SliderForm
+class GalleryForm
 {
     public static function configure(Schema $schema): Schema
     {
         return $schema
             ->components([
                 \Filament\Forms\Components\TextInput::make('title')
-                    ->label('Başlık')
-                    ->required(),
-                \Filament\Forms\Components\TextInput::make('subtitle')
-                    ->label('Alt Başlık / Açıklama'),
-                \Filament\Forms\Components\FileUpload::make('image')
-                    ->label('Slider Görseli')
+                    ->label('Albüm Adı')
+                    ->placeholder('Örn: Banyo Tesisatı Örnekleri'),
+                \Filament\Forms\Components\FileUpload::make('images')
+                    ->label('Görseller')
                     ->image()
+                    ->multiple()
+                    ->reorderable()
                     ->disk('public')
-                    ->directory('sliders')
+                    ->directory('gallery')
                     ->required(),
-                \Filament\Forms\Components\TextInput::make('link')
-                    ->label('Link / Bağlantı'),
                 \Filament\Forms\Components\TextInput::make('order')
                     ->label('Sıralama')
                     ->numeric()
                     ->default(0),
                 \Filament\Forms\Components\Toggle::make('is_active')
-                    ->label('Aktif mi?')
+                    ->label('Yayında mı?')
                     ->default(true),
             ]);
     }

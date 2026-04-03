@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
+class Gallery extends Model
 {
     protected $guarded = [];
 
     protected $casts = [
-        'image' => 'array',
+        'images' => 'array',
     ];
 }

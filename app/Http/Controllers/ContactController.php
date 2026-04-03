@@ -19,7 +19,6 @@ class ContactController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'message' => $validated['message'],
-            'status' => 'unread',
         ]);
 
         return back()->with('success', 'Mesajınız başarıyla iletildi. En kısa sürede size dönüş yapacağız.');

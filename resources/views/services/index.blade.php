@@ -16,7 +16,11 @@
             @foreach($services as $service)
             <div class="bg-white rounded-[2.5rem] overflow-hidden shadow-sm border border-slate-100 card-hover flex flex-col">
                 <div class="h-64 bg-slate-200 relative overflow-hidden group">
+                    @if($service->image)
+                    <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+                    @else
                     <img src="https://images.unsplash.com/photo-1542013936693-884638332954?auto=format&fit=crop&w=800&q=80" alt="{{ $service->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+                    @endif
                     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                     <div class="absolute bottom-6 left-6 flex space-x-2">
                         <span class="bg-primary/90 text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest backdrop-blur-sm">Garantili</span>

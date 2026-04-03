@@ -14,17 +14,21 @@ class StatsOverview extends StatsOverviewWidget
                 ->description('Kayıtlı müşteri sayısı')
                 ->descriptionIcon(\Filament\Support\Icons\Heroicon::Users)
                 ->color('success'),
+            Stat::make('Toplam Gelir', '₺' . number_format(\App\Models\Transaction::where('type', 'gelir')->sum('amount'), 2))
+                ->description('Toplam tahsil edilen tutar')
+                ->descriptionIcon(\Filament\Support\Icons\Heroicon::Banknotes)
+                ->color('success'),
+            Stat::make('Toplam Gider', '₺' . number_format(\App\Models\Transaction::where('type', 'gider')->sum('amount'), 2))
+                ->description('Toplam yapılan harcama')
+                ->descriptionIcon(\Filament\Support\Icons\Heroicon::PresentationChartLine)
+                ->color('danger'),
             Stat::make('Bekleyen İşler', \App\Models\WorkOrder::where('status', 'pending')->count())
                 ->description('Müdahale bekleyen işler')
                 ->descriptionIcon(\Filament\Support\Icons\Heroicon::Clock)
                 ->color('warning'),
             Stat::make('Yeni Mesajlar', \App\Models\ContactMessage::where('is_read', false)->count())
-                ->description('Okunmamış iletişim mesajları')
+                ->description('Okunmamış mesajlar')
                 ->descriptionIcon(\Filament\Support\Icons\Heroicon::Envelope)
-                ->color('danger'),
-            Stat::make('Tamamlanan İşler', \App\Models\WorkOrder::where('status', 'completed')->count())
-                ->description('Başarıyla biten işler')
-                ->descriptionIcon(\Filament\Support\Icons\Heroicon::CheckCircle)
                 ->color('info'),
         ];
     }

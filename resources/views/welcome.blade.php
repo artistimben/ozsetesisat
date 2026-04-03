@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'ÖZSE Tesisat - Hatay Dörtyol Su Tesisatı & Tıkanıklık Açma')
+@section('title', $settings['site_title'] ?? 'ÖZSE Tesisat - Hatay Dörtyol Su Tesisatı & Tıkanıklık Açma')
+@section('meta_description', $settings['site_description'] ?? 'Hatay Dörtyol ve çevresinde su tesisatı, tıkanıklık açma, kaçak tespiti ve petek temizleme hizmetleri.')
 
 @section('content')
 <!-- Hero Section -->
@@ -18,11 +19,11 @@
                         {{ $slider->subtitle ?? 'Hatay Dörtyol ve çevre illerde modern cihazlarla kırmadan dökmeden profesyonel çözümler sunuyoruz.' }}
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 mb-12">
-                        <a href="/hizmetler" class="bg-primary text-white px-8 py-4 rounded-2xl font-bold hover:bg-secondary transition-all shadow-xl shadow-primary/30 flex items-center justify-center">
+                        <a href="/hizmetler" class="bg-primary text-white px-8 py-4 rounded-2xl font-bold hover:bg-secondary transition-all shadow-xl shadow-primary/30 flex items-center justify-center text-lg">
                             Hizmetlerimizi İncele
                             <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"></path></svg>
                         </a>
-                        <a href="https://wa.me/905300000000" class="bg-white text-slate-800 border-2 border-slate-200 px-8 py-4 rounded-2xl font-bold hover:border-primary/30 hover:bg-slate-50 transition-all flex items-center justify-center group">
+                        <a href="{{ $settings['whatsapp'] ?? 'https://wa.me/905300000000' }}" target="_blank" class="bg-white text-slate-800 border-2 border-slate-200 px-8 py-4 rounded-2xl font-bold hover:border-primary/30 hover:bg-slate-50 transition-all flex items-center justify-center group text-lg">
                             WhatsApp Mesajı
                         </a>
                     </div>
@@ -32,10 +33,22 @@
                     <div class="relative bg-white rounded-[2.5rem] overflow-hidden shadow-2xl p-2 border border-white/50">
                         <img src="{{ asset('storage/' . $slider->image) }}" alt="{{ $slider->title }}" class="rounded-[2rem] w-full h-[450px] object-cover">
                     </div>
+                    <!-- Stats Floating Card -->
+                    <div class="absolute -bottom-10 -left-10 bg-white p-8 rounded-3xl shadow-2xl border border-slate-100 hidden sm:block">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-slate-400 font-bold uppercase tracking-widest">Tecrübe</p>
+                                <p class="text-2xl font-bold font-outfit">12+ Yıl Hizmet</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        @break <!-- For now display first one as hero, or we could add a proper slider JS -->
+        @break 
         @endforeach
     @else
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -58,7 +71,7 @@
 </section>
 
 <!-- Services Grid -->
-<section class="py-24 bg-white">
+<section class="py-24 bg-white" id="hizmetler">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-20">
             <h2 class="text-4xl lg:text-5xl font-bold font-outfit mb-6 tracking-tight">Hizmet Alanlarımız</h2>
@@ -84,7 +97,7 @@
                     </svg>
                 </div>
                 <h3 class="text-xl font-bold font-outfit mb-4 group-hover:text-primary transition-colors">{{ $service->title }}</h3>
-                <p class="text-slate-500 leading-relaxed mb-8">{{ $service->description }}</p>
+                <p class="text-slate-500 leading-relaxed mb-8 line-clamp-3">{{ $service->description }}</p>
                 <a href="/hizmetler/{{ $service->slug }}" class="flex items-center text-sm font-bold text-primary group-hover:translate-x-2 transition-transform">
                     Detaylı Bilgi
                     <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
@@ -95,7 +108,63 @@
     </div>
 </section>
 
-<!-- About Call to Action -->
+<!-- Projects Overview -->
+<section class="py-24 bg-surface">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+            <div>
+                <h2 class="text-4xl font-bold font-outfit mb-4">Son <span class="gradient-text">Projelerimiz</span></h2>
+                <p class="text-slate-500">Hatay ve çevresinde başarıyla tamamladığımız işlerden kesitler.</p>
+            </div>
+            <a href="/projeler" class="mt-8 md:mt-0 text-primary font-bold flex items-center hover:translate-x-2 transition-transform">
+                Tüm Projeleri Gör
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
+            </a>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @foreach($projects as $project)
+            <div class="group relative overflow-hidden rounded-[2.5rem] bg-white h-80 shadow-sm">
+                @php
+                    $projectImage = is_array($project->image) ? ($project->image[0] ?? null) : $project->image;
+                @endphp
+                @if($projectImage)
+                <img src="{{ asset('storage/' . $projectImage) }}" alt="{{ $project->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                @else
+                <div class="w-full h-full bg-slate-200 flex items-center justify-center font-outfit font-bold text-slate-400">Görsel Yok</div>
+                @endif
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-8 w-full">
+                    <p class="text-primary text-xs font-bold uppercase tracking-widest mb-2">{{ $project->area ?? 'Dörtyol' }}</p>
+                    <h3 class="text-xl font-bold text-white font-outfit">{{ $project->title }}</h3>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+@if(count($references) > 0)
+<!-- References Section -->
+<section class="py-16 bg-white border-y border-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h3 class="text-center text-slate-400 font-bold uppercase tracking-[0.2em] text-sm mb-12">Güvenen Referanslarımız</h3>
+        <div class="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-60 grayscale hover:grayscale-0 transition-all duration-700">
+            @foreach($references as $ref)
+            <div class="h-12 md:h-16">
+                @if($ref->logo)
+                <img src="{{ asset('storage/' . $ref->logo) }}" alt="{{ $ref->name }}" class="h-full w-auto object-contain">
+                @else
+                <span class="text-xl font-bold text-slate-300">{{ $ref->name }}</span>
+                @endif
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
+
+<!-- About CTA -->
 <section class="py-24 bg-dark relative overflow-hidden">
     <div class="absolute top-0 right-0 w-1/3 h-full bg-primary/5 -skew-x-12 transform translate-x-1/2"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -160,6 +229,63 @@
                         <h5 class="font-bold text-slate-800">{{ $testimonial->name }}</h5>
                         <p class="text-xs text-slate-400 font-bold uppercase tracking-widest">{{ $testimonial->role }}</p>
                     </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-24 bg-white" id="sss">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold font-outfit mb-4">Sıkça Sorulan <span class="gradient-text">Sorular</span></h2>
+            <p class="text-slate-500">Tesisat çözümlerimiz hakkında merak ettiğiniz cevaplar.</p>
+        </div>
+        
+        <div class="space-y-4">
+            @foreach($faqs as $faq)
+            <div class="bg-surface rounded-3xl overflow-hidden border border-slate-100">
+                <button class="w-full text-left p-6 sm:p-8 flex items-center justify-between group" onclick="this.nextElementSibling.classList.toggle('hidden');">
+                    <span class="text-lg font-bold font-outfit text-slate-800 group-hover:text-primary transition-colors">{{ $faq->question }}</span>
+                    <svg class="w-6 h-6 text-slate-400 group-hover:text-primary transition-all" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="px-6 sm:px-8 pb-8 text-slate-600 leading-relaxed hidden">
+                    {{ $faq->answer }}
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+<!-- Blog Section -->
+<section class="py-24 bg-surface">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+            <div>
+                <h2 class="text-4xl font-bold font-outfit mb-4">Güncel <span class="gradient-text">Haberler</span></h2>
+                <p class="text-slate-500">Tesisat bakımı ve pratik bilgiler için blogumuzu takip edin.</p>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @foreach($posts as $post)
+            <div class="bg-white rounded-[2.5rem] overflow-hidden border border-slate-100 card-hover shadow-sm flex flex-col">
+                <div class="h-64 overflow-hidden relative">
+                    <img src="{{ $post->image ? asset('storage/' . $post->image) : 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80' }}" alt="{{ $post->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+                </div>
+                <div class="p-8 flex-grow">
+                    <div class="flex items-center text-xs font-bold text-primary mb-4 uppercase tracking-widest">
+                        <span>{{ $post->created_at->format('d.m.Y') }}</span>
+                    </div>
+                    <h3 class="text-xl font-bold font-outfit mb-4">{{ $post->title }}</h3>
+                    <p class="text-slate-500 mb-6 line-clamp-3 leading-relaxed">{{ $post->excerpt ?? substr(strip_tags($post->content), 0, 150) . '...' }}</p>
+                    <a href="#" class="inline-flex items-center text-primary font-bold hover:translate-x-2 transition-transform mt-auto">
+                        Devamını Oku
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
+                    </a>
                 </div>
             </div>
             @endforeach
